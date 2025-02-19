@@ -2,6 +2,14 @@ import autogen
 from playwright.sync_api import sync_playwright
 import openai
 
+import configparser
+
+config = configparser.ConfigParser()
+config.read("config/config.ini")
+
+API_KEY = config["API"]["API_KEY"]
+
+
 # Web Scraper Agent
 class WebScraper:
     def __init__(self):
@@ -25,7 +33,7 @@ class WebScraper:
         return self.urls[:5]  # Limit to 5 sources
 
 # Blog Writer Agent using AutoGen
-blog_writer = autogen.AssistantAgent(name="blog_writer", llm_config={"model": "gpt-4", "api_key": "sk-svcacct-xzRuVbLplJPKSzFEsxhl72X5pM4J8yORZ3Id9WBjp6oZ9I5UkuujwtZGHz1DW4ku5-zT3BlbkFJnwSoeCymmrRd8ICwmVrtpVAOw2i9JyfzsF0JHTKELlvdFGPv4No5bO0h_wcUFl9euAA"})
+blog_writer = autogen.AssistantAgent(name="blog_writer", llm_config={"model": "gpt-4", "api_key": ("%s" % API_KEY)})
 
 # Instantiate Web Scraper
 scraper = WebScraper()
